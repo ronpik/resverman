@@ -4,11 +4,21 @@ from typing import Iterable, Iterator
 
 from dstools.common.ext.typing_ext import JSON
 from dstools.common.io_utils import write_lines, read_lines
+from dstools.common.aio_utils import (
+    write_lines as awrite_lines,
+    read_lines as aread_lines,
+    write_text as awrite_text
+)
 
 
 def write_json(data:JSON, path: str):
     with open(path, 'w') as f:
         json.dump(data, f)
+
+
+async def awrite_json(data:JSON, path: str | Path):
+    j = json.dumps(data)
+    await awrite_text(path, j)
 
 
 def read_json(path: str | Path) -> JSON:
